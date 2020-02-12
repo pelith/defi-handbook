@@ -20,9 +20,11 @@
   "dependencies": {
     "@material-ui/core": "^4.9.2",
     "@material-ui/icons": "^4.9.1",
+    "@mdx-js/loader": "^1.5.5",
     "@mui-treasury/layout": "^3.3.3",
     "@mui-treasury/mockup": "^0.4.2",
     "@next/bundle-analyzer": "^9.2.1",
+    "@next/mdx": "^9.2.1",
     "clsx": "^1.1.0",
     "cross-env": "^7.0.0",
     "next": "^9.2.1",
