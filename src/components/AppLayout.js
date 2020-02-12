@@ -1,51 +1,46 @@
-import React, { useState, useCallback } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Header from './Header'
-import Navigation from './Navigation'
+import React from 'react'
+import {
+  Root,
+  Header,
+  SidebarTrigger,
+  SidebarTriggerIcon,
+  InsetSidebar,
+  Content,
+  ConfigGenerator,
+} from '@mui-treasury/layout'
+import Container from '@material-ui/core/Container'
+import Toolbar from '@material-ui/core/Toolbar'
+import HeaderContent from './HeaderContent'
+import NavContent from './NavContent'
 
-const drawerWidth = 300
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    position: 'relative',
-  },
-  content: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    padding: theme.spacing(3),
-    '&::before': {
-      content: '""',
-      display: 'block',
-      width: '100%',
-      ...theme.mixins.toolbar,
-    },
-    [theme.breakpoints.up('sm')]: {
-      paddingLeft: drawerWidth + theme.spacing(3),
-    },
-  },
-  toolbar: theme.mixins.toolbar,
-}))
+const config = ConfigGenerator({ addOnsIncluded: true })
+config.setPrimarySidebarToInset()
 
 export default function AppLayout(props) {
   const { children } = props
-  const classes = useStyles()
-
-  const [isOpen, setIsOpen] = useState(false)
-
-  const handleDrawerToggle = useCallback(() => {
-    setIsOpen(!isOpen)
-  }, [isOpen])
 
   return (
-    <div className={classes.root}>
-      <Header handleDrawerToggle={handleDrawerToggle} />
-      <Navigation
-        isDrawerOpen={isOpen}
-        handleDrawerToggle={handleDrawerToggle}
-      />
-      <main className={classes.content}>{children}</main>
-    </div>
+    <Root config={config.get()}>
+      {({ headerStyles, containerStyles }) => (
+        <>
+          <Header>
+            <Container>
+              <Toolbar disableGutters>
+                <SidebarTrigger className={headerStyles.leftTrigger}>
+                  <SidebarTriggerIcon />
+                </SidebarTrigger>
+                <HeaderContent />
+              </Toolbar>
+            </Container>
+          </Header>
+          <Container className={containerStyles.root}>
+            <InsetSidebar>
+              <NavContent />
+            </InsetSidebar>
+            <Content>{children}</Content>
+          </Container>
+        </>
+      )}
+    </Root>
   )
 }

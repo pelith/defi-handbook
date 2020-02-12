@@ -20,10 +20,14 @@
   "dependencies": {
     "@material-ui/core": "^4.9.2",
     "@material-ui/icons": "^4.9.1",
+    "@mui-treasury/layout": "^3.3.3",
+    "@mui-treasury/mockup": "^0.4.2",
     "@next/bundle-analyzer": "^9.2.1",
     "clsx": "^1.1.0",
     "cross-env": "^7.0.0",
     "next": "^9.2.1",
+    "next-compose-plugins": "^2.2.0",
+    "next-transpile-modules": "^3.0.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
