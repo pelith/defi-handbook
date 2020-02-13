@@ -6,10 +6,17 @@ import {
   responsiveFontSizes,
 } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { MDXProvider } from '@mdx-js/react'
 import AppLayout from '../components/AppLayout'
+import CodeBlock from '../components/CodeBlock'
 
 const muiTheme = createMuiTheme()
 const theme = responsiveFontSizes(muiTheme)
+
+const components = {
+  pre: props => <div {...props} />,
+  code: CodeBlock,
+}
 
 export default function MyApp({ Component, pageProps }) {
   return (
@@ -35,9 +42,11 @@ export default function MyApp({ Component, pageProps }) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppLayout>
-          <Component {...pageProps} />
-        </AppLayout>
+        <MDXProvider components={components}>
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
+        </MDXProvider>
       </ThemeProvider>
     </>
   )

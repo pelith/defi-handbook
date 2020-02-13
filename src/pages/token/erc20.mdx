@@ -2,7 +2,7 @@
 
 ## Interface
 
-```js
+```javascript
 interface IERC20 {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -24,7 +24,7 @@ Typing something...
 
 ## Ask someone allowance before transfering from their balance
 
-```js
+```javascript
 contract DaiExchange {
   IERC20 DAI = IERC20();
   uint256 rate = 1e17;
