@@ -6,6 +6,7 @@ import {
   responsiveFontSizes,
 } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Typography from '@material-ui/core/Typography'
 import { MDXProvider } from '@mdx-js/react'
 import AppLayout from '../components/AppLayout'
 import CodeBlock from '../components/CodeBlock'
@@ -14,6 +15,13 @@ const muiTheme = createMuiTheme()
 const theme = responsiveFontSizes(muiTheme)
 
 const components = {
+  h1: props => <Typography variant='h4' gutterBottom {...props} />,
+  h2: props => <Typography variant='h5' gutterBottom {...props} />,
+  h3: props => <Typography variant='h6' gutterBottom {...props} />,
+  h4: props => <Typography variant='subtitle2' gutterBottom {...props} />,
+  h5: props => <Typography variant='body1' gutterBottom {...props} />,
+  h6: props => <Typography variant='subtitle1' gutterBottom {...props} />,
+  p: props => <Typography variant='body2' gutterBottom {...props} />,
   pre: props => <div {...props} />,
   code: CodeBlock,
 }
