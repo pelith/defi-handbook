@@ -68,6 +68,14 @@ export default function NavContent() {
 
   return (
     <>
+      <Link href='/'>
+        <ListItem component='a' button selected={router.asPath === '/'}>
+          <ListItemText
+            primary='Table of Content'
+            primaryTypographyProps={{ noWrap: true }}
+          />
+        </ListItem>
+      </Link>
       <List dense={true} subheader={<ListSubheader>Token</ListSubheader>}>
         {tokenNav.map(({ primaryText, href }, i) => (
           <li key={primaryText}>
