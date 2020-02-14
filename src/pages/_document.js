@@ -36,7 +36,7 @@ export default class Document extends NextDocument {
             name='description'
             content='DeFi Handbook make easier for you to dive into DeFi protocols'
           />
-          <link rel='apple-touch-icon' href='images/logo@2x.png' />
+          <link rel='apple-touch-icon' href='images/apple-touch-icon.png' />
           <link
             rel='stylesheet'
             href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
