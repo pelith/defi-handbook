@@ -1,93 +1,49 @@
 var theme = {
   plain: {
-    color: '#4e5a65',
-    backgroundColor: '#eff1f5',
+    color: '#1a1a1a',
+    backgroundColor: '#f7f7f7',
   },
   styles: [
     {
       types: ['comment'],
       style: {
-        color: 'rgb(166, 172, 185)',
-        fontStyle: 'italic',
+        color: 'rgb(199, 196, 194)',
       },
     },
     {
-      types: ['punctuation', 'operator'],
+      types: ['string', 'builtin'],
       style: {
-        color: 'rgb(212, 138, 70)',
+        color: 'rgb(66, 130, 38)',
       },
     },
     {
-      types: ['variable'],
+      types: ['number', 'property'],
       style: {
-        color: 'rgb(62, 72, 81)',
+        color: 'rgb(55, 120, 183)',
       },
     },
     {
-      types: ['builtin', 'function'],
+      types: ['class-name', 'function', 'constant'],
       style: {
-        color: 'rgb(105, 129, 153)',
+        color: 'rgb(201, 72, 36)',
       },
     },
     {
-      types: ['constant', 'char'],
+      types: ['variable', 'keyword', 'operator'],
       style: {
-        color: 'rgb(154, 103, 145)',
+        color: 'rgb(165, 100, 22)',
       },
     },
     {
-      types: ['number'],
+      types: ['attr-name', 'selector'],
       style: {
-        color: 'rgb(193, 94, 64)',
+        color: 'rgb(176, 82, 161)',
       },
     },
     {
-      types: ['keyword'],
+      types: ['punctuation'],
       style: {
-        fontStyle: 'italic',
-      },
-    },
-    {
-      types: ['tag'],
-      style: {
-        color: 'rgb(162, 66, 76)',
-      },
-    },
-    {
-      types: ['string'],
-      style: {
-        color: 'rgb(164, 191, 141)',
-      },
-    },
-    {
-      types: ['attr-name'],
-      style: {
-        color: 'rgb(193, 94, 64)',
-        fontStyle: 'italic',
-      },
-    },
-    {
-      types: ['property'],
-      style: {
-        color: 'rgb(106, 115, 135)',
-      },
-    },
-    {
-      types: ['deleted'],
-      style: {
-        color: 'rgb(111, 45, 51)',
-      },
-    },
-    {
-      types: ['inserted'],
-      style: {
-        color: 'rgb(68, 88, 50)',
-      },
-    },
-    {
-      types: ['changed'],
-      style: {
-        color: 'rgb(55, 68, 81)',
+        color: 'rgb(26, 26, 26)',
       },
     },
   ],
