@@ -9,6 +9,7 @@ import 'prismjs/components/prism-solidity.min.js'
 const useStyles = makeStyles(theme => ({
   wrapper: {
     width: '100%',
+    borderRadius: '4px',
     overflowX: 'auto',
     fontSize: '13px',
     fontFamily: 'Fira Code',

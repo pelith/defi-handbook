@@ -5,6 +5,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import ListItemText from '@material-ui/core/ListItemText'
+import { makeStyles } from '@material-ui/styles'
 
 const tokenNav = [
   {
@@ -63,13 +64,35 @@ const lendingNav = [
   },
 ]
 
+const useStyles = makeStyles(theme => {
+  console.log(theme.palette)
+  return {
+    root: {
+      minHeight: '100%',
+      paddingTop: '24px',
+      paddingBottom: '24px',
+      overflow: 'auto',
+      backgroundColor: '#F0ECE1',
+    },
+    listItemSelected: {
+      borderRadius: '18px',
+    },
+  }
+})
+
 export default function NavContent() {
   const router = useRouter()
+  const classes = useStyles()
 
   return (
-    <>
+    <div className={classes.root}>
       <Link href='/'>
-        <ListItem component='a' button selected={router.asPath === '/'}>
+        <ListItem
+          classes={{ selected: classes.listItemSelected }}
+          component='a'
+          button
+          selected={router.asPath === '/'}
+        >
           <ListItemText
             primary='Table of Content'
             primaryTypographyProps={{ noWrap: true }}
@@ -80,7 +103,12 @@ export default function NavContent() {
         {tokenNav.map(({ primaryText, href }, i) => (
           <li key={primaryText}>
             <Link href={href}>
-              <ListItem component='a' button selected={router.asPath === href}>
+              <ListItem
+                classes={{ selected: classes.listItemSelected }}
+                component='a'
+                button
+                selected={router.asPath === href}
+              >
                 <ListItemText
                   primary={primaryText}
                   primaryTypographyProps={{ noWrap: true }}
@@ -94,7 +122,12 @@ export default function NavContent() {
         {exchangeNav.map(({ primaryText, href }, i) => (
           <li key={primaryText}>
             <Link href={href}>
-              <ListItem component='a' button selected={router.asPath === href}>
+              <ListItem
+                classes={{ selected: classes.listItemSelected }}
+                component='a'
+                button
+                selected={router.asPath === href}
+              >
                 <ListItemText
                   primary={primaryText}
                   primaryTypographyProps={{ noWrap: true }}
@@ -108,7 +141,12 @@ export default function NavContent() {
         {lendingNav.map(({ primaryText, href }, i) => (
           <li key={primaryText}>
             <Link href={href}>
-              <ListItem component='a' button selected={router.asPath === href}>
+              <ListItem
+                classes={{ selected: classes.listItemSelected }}
+                component='a'
+                button
+                selected={router.asPath === href}
+              >
                 <ListItemText
                   primary={primaryText}
                   primaryTypographyProps={{ noWrap: true }}
@@ -118,7 +156,7 @@ export default function NavContent() {
           </li>
         ))}
       </List>
-    </>
+    </div>
   )
 }
 

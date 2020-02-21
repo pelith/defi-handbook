@@ -1,9 +1,9 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import Search from './Search'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   header: {
     fontWeight: 900,
     minWidth: 0,
@@ -14,8 +14,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function HeaderContent() {
+export default function HeaderContent(props) {
   const classes = useStyles()
+  const theme = useTheme()
+  console.log(theme.palette)
 
   return (
     <>

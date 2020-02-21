@@ -9,6 +9,7 @@ import {
   ConfigGenerator,
 } from '@mui-treasury/layout'
 import { styled } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
 import Toolbar from '@material-ui/core/Toolbar'
 import HeaderContent from './HeaderContent'
@@ -17,18 +18,27 @@ import NavContent from './NavContent'
 const config = ConfigGenerator({ addOnsIncluded: true })
 config.setPrimarySidebarToInset()
 
+const useStyles = makeStyles(theme => ({
+  header: {
+    backgroundColor: theme.palette.primary.main,
+  },
+}))
+
 const PageContent = styled('div')(({ theme }) => ({
   padding: theme.spacing(3),
 }))
 
 export default function AppLayout(props) {
   const { children } = props
+  const classes = useStyles()
+  const theme = useTheme()
+  console.log(theme.palette)
 
   return (
     <Root config={config.get()}>
       {({ headerStyles, containerStyles }) => (
         <>
-          <Header>
+          <Header className={classes.header}>
             <Container>
               <Toolbar disableGutters>
                 <SidebarTrigger className={headerStyles.leftTrigger}>

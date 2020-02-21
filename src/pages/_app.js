@@ -1,10 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
-import {
-  ThemeProvider,
-  createMuiTheme,
-  responsiveFontSizes,
-} from '@material-ui/core/styles'
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
+import ThemeProvider from '@material-ui/styles/ThemeProvider'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
@@ -12,7 +9,19 @@ import { MDXProvider } from '@mdx-js/react'
 import AppLayout from '../components/AppLayout'
 import CodeBlock from '../components/CodeBlock'
 
-const muiTheme = createMuiTheme()
+const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#EDCF8F',
+    },
+    secondary: {
+      main: '#C97F4E',
+    },
+    background: {
+      default: '#F0ECE1',
+    },
+  },
+})
 const theme = responsiveFontSizes(muiTheme)
 
 const inlineCode = props => (
@@ -32,9 +41,10 @@ const blockquote = props => (
     mx={5}
     my={2}
     p={2}
+    borderRadius={4}
     borderLeft={4}
-    borderColor='info.main'
-    bgcolor='grey.200'
+    borderColor='#C97F4E'
+    bgcolor='grey.100'
     {...props}
   />
 )
