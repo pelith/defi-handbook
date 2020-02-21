@@ -4,7 +4,10 @@ import Link from 'next/link'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListSubheader from '@material-ui/core/ListSubheader'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import Divider from '@material-ui/core/Divider'
+import GitHubIcon from '@material-ui/icons/GitHub'
 import { makeStyles } from '@material-ui/styles'
 
 const tokenNav = [
@@ -64,21 +67,18 @@ const lendingNav = [
   },
 ]
 
-const useStyles = makeStyles(theme => {
-  console.log(theme.palette)
-  return {
-    root: {
-      minHeight: '100%',
-      paddingTop: '24px',
-      paddingBottom: '24px',
-      overflow: 'auto',
-      backgroundColor: '#F0ECE1',
-    },
-    listItemSelected: {
-      borderRadius: '18px',
-    },
-  }
-})
+const useStyles = makeStyles(() => ({
+  root: {
+    minHeight: '100%',
+    paddingTop: '24px',
+    paddingBottom: '24px',
+    overflow: 'auto',
+    backgroundColor: '#F0ECE1',
+  },
+  listItemSelected: {
+    borderRadius: '18px',
+  },
+}))
 
 export default function NavContent() {
   const router = useRouter()
@@ -156,6 +156,18 @@ export default function NavContent() {
           </li>
         ))}
       </List>
+      <Divider />
+      <ListItem
+        button
+        component='a'
+        href='https://github.com/pelith/defi-handbook'
+        target='_blank'
+      >
+        <ListItemIcon>
+          <GitHubIcon />
+        </ListItemIcon>
+        <ListItemText>GitHub</ListItemText>
+      </ListItem>
     </div>
   )
 }
