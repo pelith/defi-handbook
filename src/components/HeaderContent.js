@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles, useTheme } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import Search from './Search'
 
@@ -16,8 +16,6 @@ const useStyles = makeStyles(() => ({
 
 export default function HeaderContent(props) {
   const classes = useStyles()
-  const theme = useTheme()
-  console.log(theme.palette)
 
   return (
     <>
