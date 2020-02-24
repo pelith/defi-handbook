@@ -9,7 +9,7 @@ import {
   ConfigGenerator,
 } from '@mui-treasury/layout'
 import { styled } from '@material-ui/core/styles'
-import { makeStyles, useTheme } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
 import Toolbar from '@material-ui/core/Toolbar'
 import HeaderContent from './HeaderContent'
@@ -31,8 +31,6 @@ const PageContent = styled('div')(({ theme }) => ({
 export default function AppLayout(props) {
   const { children } = props
   const classes = useStyles()
-  const theme = useTheme()
-  console.log(theme.palette)
 
   return (
     <Root config={config.get()}>
