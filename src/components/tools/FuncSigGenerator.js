@@ -1,55 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Box from '@material-ui/core/Box'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
-import { isAddress } from 'web3-utils'
-import { READ_ONLY } from '../../constants'
+import { AbiCoder } from 'web3-eth-abi'
+import { keccak256 } from 'web3-utils'
 
-export default function ContractAddressChecker() {
-  const { active, library } = useWeb3React(READ_ONLY)
-  const [address, setAddress] = useState('')
+const abiCoder = new AbiCoder()
+const format = /\w+\(((bool|string|address|bytes\d*|u?int(8|16|32|64|128|256)?)(\[\])?,?)+\)/
+
+export default function FuncSigGenerator() {
+  const [func, setFunc] = useState('')
+  const [signature, setSignature] = useState()
   const [isError, setIsError] = useState()
-  const [isContract, setIsContract] = useState()
 
-  // check address format
+  // check function format
   useEffect(() => {
-    if (!address || isAddress(address)) {
+    if (!func || format.exec(func)) {
       setIsError(false)
     } else {
       setIsError(true)
     }
-  }, [address])
+  }, [func])
 
-  // check address type
+  // get function signature
   useEffect(() => {
-    async function check() {
-      if (isAddress(address) && active && library) {
-        const code = await library.eth.getCode(address)
-        if (code.slice(2)) {
-          setIsContract(true)
-        } else {
-          setIsContract(false)
-        }
-      }
+    if (func && format.exec(func)) {
+      setSignature(abiCoder.encodeFunctionSignature(func))
+    } else {
+      setSignature()
     }
-
-    if (address && isAddress(address)) {
-      check()
-    }
-  }, [active, address, library])
+  }, [func])
 
   const renderResult = () => {
-    if (
-      active &&
-      address &&
-      isAddress(address) &&
-      typeof isContract === 'boolean' &&
-      !isError
-    ) {
+    if (signature && !isError) {
       return (
         <>
           <Box display='flex' justifyContent='center' alignItems='center'>
@@ -64,9 +50,7 @@ export default function ContractAddressChecker() {
             justifyContent='center'
             alignItems='center'
           >
-            <Typography variant='h6'>
-              {isContract ? 'Contract' : 'External Owned Account (EOA)'}
-            </Typography>
+            <Typography variant='h6'>{signature}</Typography>
           </Box>
         </>
       )
@@ -77,17 +61,18 @@ export default function ContractAddressChecker() {
     <Card variant='outlined'>
       <CardContent>
         <Typography gutterBottom variant='h6'>
-          Check address is an EOA or a contract
+          Generate function signature
         </Typography>
         <TextField
           fullWidth
           variant='outlined'
           margin='normal'
-          label='address'
-          helperText={isError && 'Incorrect Address'}
+          label='Function name'
+          placeholder='transfer(address,uint)'
+          helperText={isError && 'Incorrect Function format'}
           error={isError}
-          value={address}
-          onChange={event => setAddress(event.target.value)}
+          value={func}
+          onChange={event => setFunc(event.target.value)}
         />
         {renderResult()}
       </CardContent>
