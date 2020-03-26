@@ -29,7 +29,7 @@ export default function Index() {
         {links.map(link => (
           <NextLink key={link.href} href={link.href}>
             <ListItem button>
-              <Link>{link.text}</Link>
+              <Link href={link.href}>{link.text}</Link>
             </ListItem>
           </NextLink>
         ))}

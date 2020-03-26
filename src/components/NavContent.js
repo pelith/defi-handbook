@@ -41,7 +41,7 @@ const exchangeNav = [
   },
   {
     primaryText: 'Kyber Network',
-    href: '/exchange/Kyber-network',
+    href: '/exchange/kyber-network',
   },
   {
     primaryText: 'Oasis',
@@ -52,7 +52,7 @@ const exchangeNav = [
 const lendingNav = [
   {
     primaryText: 'Compound',
-    href: '/lending/Compound',
+    href: '/lending/compound',
   },
   {
     primaryText: 'Fulcrum',
@@ -91,6 +91,7 @@ export default function NavContent() {
         <ListItem
           classes={{ selected: classes.listItemSelected }}
           component='a'
+          href='/'
           button
           selected={router.asPath === '/'}
         >
@@ -107,6 +108,7 @@ export default function NavContent() {
               <ListItem
                 classes={{ selected: classes.listItemSelected }}
                 component='a'
+                href={href}
                 button
                 selected={router.asPath === href}
               >
@@ -126,6 +128,7 @@ export default function NavContent() {
               <ListItem
                 classes={{ selected: classes.listItemSelected }}
                 component='a'
+                href={href}
                 button
                 selected={router.asPath === href}
               >
@@ -144,9 +147,10 @@ export default function NavContent() {
             <Link href={href}>
               <ListItem
                 classes={{ selected: classes.listItemSelected }}
-                component='a'
-                button
                 selected={router.asPath === href}
+                button
+                component='a'
+                href={href}
               >
                 <ListItemText
                   primary={primaryText}
@@ -159,7 +163,7 @@ export default function NavContent() {
       </List>
       <Divider />
       <Link href='/tools'>
-        <ListItem button component='a'>
+        <ListItem button component='a' href='/tools'>
           <ListItemIcon>
             <BuildIcon />
           </ListItemIcon>

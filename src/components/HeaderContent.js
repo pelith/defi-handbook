@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
-import Search from './Search'
+// import Search from './Search'
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -23,7 +23,7 @@ export default function HeaderContent(props) {
         DeFi Handbook
       </Typography>
       <div className={classes.grow} />
-      <Search />
+      {/* <Search /> */}
     </>
   )
 }
