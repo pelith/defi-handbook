@@ -7,6 +7,7 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
+import BuildIcon from '@material-ui/icons/Build'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import { makeStyles } from '@material-ui/styles'
 
@@ -156,6 +157,15 @@ export default function NavContent() {
           </li>
         ))}
       </List>
+      <Divider />
+      <Link href='/tools'>
+        <ListItem button component='a'>
+          <ListItemIcon>
+            <BuildIcon />
+          </ListItemIcon>
+          <ListItemText>Tools</ListItemText>
+        </ListItem>
+      </Link>
       <Divider />
       <ListItem
         button

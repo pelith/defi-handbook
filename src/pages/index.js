@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 
 const links = [
+  { href: '/tools', text: 'Tools' },
   { href: '/token/erc20', text: 'ERC20' },
   { href: '/token/non-standard-erc20', text: 'Non Standard ERC20' },
   { href: '/token/safe-erc20-library', text: 'Safe ERC20 Library' },
