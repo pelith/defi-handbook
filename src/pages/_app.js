@@ -16,17 +16,17 @@ export default function MyApp({ Component, pageProps }) {
           property='description'
           content='DeFi Handbook make easier for you to dive into DeFi protocols'
         />
-        <meta property='image' content='/images/og_image.png' />
+        <meta property='image' content='/images/handbook-rollout.png' />
         <meta property='og:title' content='DeFi Handbook' />
         <meta
           property='og:description'
           content='DeFi Handbook make easier for you to dive into DeFi protocols'
         />
-        <meta property='og:url' content='https://easydai.app/' />
+        <meta property='og:url' content='https://defi-handbook.netlify.com' />
         <meta property='og:type' content='website' />
-        <meta property='og:image' content='/images/og_image.png' />
-        <meta property='og:image:width' content='764' />
-        <meta property='og:image:height' content='400' />
+        <meta property='og:image' content='/images/handbook-rollout.png' />
+        <meta property='og:image:width' content='289' />
+        <meta property='og:image:height' content='175' />
       </Head>
       <Web3Provider>
         <ThemeProvider>
