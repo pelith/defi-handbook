@@ -6,33 +6,66 @@ import TextField from '@material-ui/core/TextField'
 import Box from '@material-ui/core/Box'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
 import { AbiCoder } from 'web3-eth-abi'
-import { keccak256 } from 'web3-utils'
 
 const abiCoder = new AbiCoder()
-const format = /\w+\(((bool|string|address|bytes\d*|u?int(8|16|32|64|128|256)?)(\[\])?,?)+\)/
+const solidityType = /(bool|string|address|bytes(3[0-2]|[1-2]\d|\d)?|u?int((((2?[048]|1[26]))[08])|((2?[159]|1[37]|)6)|(2?[26]|1[048])4|(2?[37]|1[159])2|[8])?)/
+const format = /\w+\(((bool|string|address|bytes(3[0-2]|[1-2]\d|\d)?|u?int((((2?[048]|1[26]))[08])|((2?[159]|1[37]|)6)|(2?[26]|1[048])4|(2?[37]|1[159])2|[8])?)(\[\])?,?)+\)/
+
+function toFunctionName(src = '') {
+  const openParenthesesIndex = src.indexOf('(')
+  const closeParenthesesIndex = src.indexOf(')')
+
+  if (openParenthesesIndex === -1 || closeParenthesesIndex === -1) {
+    throw Error('Invalid Function')
+  }
+
+  const name = src
+    .slice(0, openParenthesesIndex)
+    .replace('function', '')
+    .trim()
+
+  const parameterTypes = src
+    .slice(openParenthesesIndex + 1, closeParenthesesIndex)
+    .split(',')
+    .map(parameter => parameter.trim().split(' ')[0])
+
+  if (!parameterTypes.every(type => solidityType.exec(type))) {
+    throw Error('Invalid Solidity types')
+  }
+
+  return `${name}(${parameterTypes.join(',')})`
+}
 
 export default function FuncSigGenerator() {
   const [func, setFunc] = useState('')
+  const [funcName, setFuncName] = useState()
   const [signature, setSignature] = useState()
   const [isError, setIsError] = useState()
 
   // check function format
   useEffect(() => {
-    if (!func || format.exec(func)) {
-      setIsError(false)
+    if (func) {
+      try {
+        const name = toFunctionName(func)
+        setFuncName(name)
+        setIsError(false)
+      } catch (err) {
+        setIsError(true)
+      }
     } else {
-      setIsError(true)
+      setIsError(false)
+      setSignature()
     }
   }, [func])
 
   // get function signature
   useEffect(() => {
-    if (func && format.exec(func)) {
-      setSignature(abiCoder.encodeFunctionSignature(func))
+    if (funcName && format.exec(funcName)) {
+      setSignature(abiCoder.encodeFunctionSignature(funcName))
     } else {
       setSignature()
     }
-  }, [func])
+  }, [funcName])
 
   const renderResult = () => {
     if (signature && !isError) {
@@ -69,7 +102,7 @@ export default function FuncSigGenerator() {
           margin='normal'
           label='Function name'
           placeholder='transfer(address,uint)'
-          helperText={isError && 'Incorrect Function format'}
+          helperText={isError && 'Incorrect function format'}
           error={isError}
           value={func}
           onChange={event => setFunc(event.target.value)}
