@@ -1,5 +1,12 @@
 import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import CodeBlock from '../components/CodeBlock'
@@ -49,6 +56,16 @@ const components = {
     <Typography variant='body1' component='h6' gutterBottom {...props} />
   ),
   p: props => <Typography variant='body2' component='p' {...props} />,
+  table: props => (
+    <TableContainer component={Paper}>
+      <Table {...props} />
+    </TableContainer>
+  ),
+  thead: TableHead,
+  tbody: TableBody,
+  tr: props => <TableRow hover {...props} />,
+  th: TableCell,
+  td: TableCell,
   pre: props => <div {...props} />,
   code: CodeBlock,
   inlineCode,
