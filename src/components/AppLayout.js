@@ -46,7 +46,7 @@ export default function AppLayout(props) {
               </Toolbar>
             </Container>
           </Header>
-          <Container className={containerStyles.root}>
+          <Container style={{ display: 'flex', flexFlow: 'row nowrap' }}>
             <InsetSidebar>
               <NavContent />
             </InsetSidebar>

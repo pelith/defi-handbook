@@ -1,6 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
-import Typography from '@material-ui/core/Typography'
+import Link from 'next/link'
+import logoImage from '../assets/logo.png'
+// import { ReactComponent as Logo } from '../assets/logo.svg'
 // import Search from './Search'
 
 const useStyles = makeStyles(() => ({
@@ -19,9 +21,11 @@ export default function HeaderContent(props) {
 
   return (
     <>
-      <Typography noWrap color={'textSecondary'} className={classes.header}>
-        DeFi Handbook
-      </Typography>
+      <Link href='/'>
+        <a>
+          <img src={logoImage} height='40' alt='logo' />
+        </a>
+      </Link>
       <div className={classes.grow} />
       {/* <Search /> */}
     </>

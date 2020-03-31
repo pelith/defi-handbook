@@ -6,13 +6,13 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
-      main: '#EDCF8F',
+      main: '#FAF4E6',
     },
     secondary: {
       main: '#C97F4E',
     },
     background: {
-      default: '#F0ECE1',
+      default: '#F0EBE1',
     },
   },
 })
