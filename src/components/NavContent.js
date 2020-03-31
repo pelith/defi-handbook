@@ -1,180 +1,187 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Collapse from '@material-ui/core/Collapse'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListSubheader from '@material-ui/core/ListSubheader'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-import BuildIcon from '@material-ui/icons/Build'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import { makeStyles } from '@material-ui/styles'
+import { Typography } from '@material-ui/core'
 
-const tokenNav = [
+const tokenLinks = [
   {
-    primaryText: 'ERC20',
+    text: 'ERC20',
     href: '/token/erc20',
   },
   {
-    primaryText: 'Non-standard ERC20',
+    text: 'Non-standard ERC20',
     href: '/token/non-standard-erc20',
   },
   {
-    primaryText: 'Safe ERC20 Library',
+    text: 'Safe ERC20 Library',
     href: '/token/safe-erc20-library',
   },
   {
-    primaryText: 'Permit / Max unit allowance',
+    text: 'Permit / Max unit allowance',
     href: '/token/permit',
   },
   {
-    primaryText: 'Well-known ERC20 Addresses',
+    text: 'Well-known ERC20 Addresses',
     href: '/token/erc20-addresses',
   },
 ]
 
-const exchangeNav = [
+const exchangeLinks = [
   {
-    primaryText: 'Uniswap',
+    text: 'Uniswap',
     href: '/exchange/uniswap',
   },
   {
-    primaryText: 'Kyber Network',
+    text: 'Kyber Network',
     href: '/exchange/kyber-network',
   },
   {
-    primaryText: 'Oasis',
+    text: 'Oasis',
     href: '/exchange/oasis',
   },
 ]
 
-const lendingNav = [
+const lendingLinks = [
   {
-    primaryText: 'Compound',
+    text: 'Compound',
     href: '/lending/compound',
   },
   {
-    primaryText: 'Fulcrum',
+    text: 'Fulcrum',
     href: '/lending/fulcrum',
   },
   {
-    primaryText: 'AAVE',
+    text: 'AAVE',
     href: '/lending/aave',
   },
   {
-    primaryText: 'DDEX',
+    text: 'DDEX',
     href: '/lending/ddex',
   },
 ]
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    minHeight: '100%',
-    paddingTop: '24px',
-    paddingBottom: '24px',
+    width: '256px',
+    height: 'calc(100% - 64px)',
     overflow: 'auto',
-    backgroundColor: '#F0ECE1',
+  },
+  listItem: {
+    margin: '8px 0',
   },
   listItemSelected: {
     borderRadius: '18px',
   },
+  nested: {
+    margin: '8px 0',
+    paddingLeft: theme.spacing(4),
+  },
 }))
 
-export default function NavContent() {
-  const router = useRouter()
+function NavPanel(props) {
+  const { title, links = [] } = props
+
   const classes = useStyles()
+  const router = useRouter()
+
+  const [isOpen, setIsOpen] = useState(
+    links.map(link => link.href).includes(router.asPath),
+  )
+
+  useEffect(() => {
+    if (router.asPath) {
+      setIsOpen(links.map(link => link.href).includes(router.asPath))
+    }
+  }, [links, router.asPath])
 
   return (
-    <div className={classes.root}>
+    <>
+      <ListItem
+        button
+        className={classes.listItem}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <ListItemText primary={title} />
+        {isOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={isOpen} timeout='auto' unmountOnExit>
+        <List component='div' disablePadding>
+          {links.map(link => (
+            <Link href={link.href} key={link.href}>
+              <ListItem
+                button
+                className={classes.nested}
+                classes={{ selected: classes.listItemSelected }}
+                selected={router.asPath === link.href}
+              >
+                <ListItemText primary={link.text} />
+              </ListItem>
+            </Link>
+          ))}
+        </List>
+      </Collapse>
+    </>
+  )
+}
+
+export default function NavContent() {
+  const classes = useStyles()
+  const router = useRouter()
+
+  return (
+    <List component='nav' className={classes.root}>
+      <Link href='/tools'>
+        <ListItem
+          button
+          component='a'
+          className={classes.listItem}
+          classes={{ selected: classes.listItemSelected }}
+          selected={router.asPath === '/tools'}
+        >
+          <ListItemText style={{ textAlign: 'center' }}>
+            <span role='img' aria-label='fire'>
+              🔥
+            </span>{' '}
+            <Typography component='span' variant='h6'>
+              Tools
+            </Typography>{' '}
+            <span role='img' aria-label='fire'>
+              🔥
+            </span>
+          </ListItemText>
+        </ListItem>
+      </Link>
+      <Divider />
       <Link href='/'>
         <ListItem
-          classes={{ selected: classes.listItemSelected }}
-          component='a'
-          href='/'
           button
+          className={classes.listItem}
+          component='a'
+          classes={{ selected: classes.listItemSelected }}
           selected={router.asPath === '/'}
         >
-          <ListItemText
-            primary='Table of Content'
-            primaryTypographyProps={{ noWrap: true }}
-          />
+          <ListItemText primary='Table of Content' />
         </ListItem>
       </Link>
-      <List dense={true} subheader={<ListSubheader>Token</ListSubheader>}>
-        {tokenNav.map(({ primaryText, href }, i) => (
-          <li key={primaryText}>
-            <Link href={href}>
-              <ListItem
-                classes={{ selected: classes.listItemSelected }}
-                component='a'
-                href={href}
-                button
-                selected={router.asPath === href}
-              >
-                <ListItemText
-                  primary={primaryText}
-                  primaryTypographyProps={{ noWrap: true }}
-                />
-              </ListItem>
-            </Link>
-          </li>
-        ))}
-      </List>
-      <List dense={true} subheader={<ListSubheader>Exchange</ListSubheader>}>
-        {exchangeNav.map(({ primaryText, href }, i) => (
-          <li key={primaryText}>
-            <Link href={href}>
-              <ListItem
-                classes={{ selected: classes.listItemSelected }}
-                component='a'
-                href={href}
-                button
-                selected={router.asPath === href}
-              >
-                <ListItemText
-                  primary={primaryText}
-                  primaryTypographyProps={{ noWrap: true }}
-                />
-              </ListItem>
-            </Link>
-          </li>
-        ))}
-      </List>
-      <List dense={true} subheader={<ListSubheader>Lending</ListSubheader>}>
-        {lendingNav.map(({ primaryText, href }, i) => (
-          <li key={primaryText}>
-            <Link href={href}>
-              <ListItem
-                classes={{ selected: classes.listItemSelected }}
-                selected={router.asPath === href}
-                button
-                component='a'
-                href={href}
-              >
-                <ListItemText
-                  primary={primaryText}
-                  primaryTypographyProps={{ noWrap: true }}
-                />
-              </ListItem>
-            </Link>
-          </li>
-        ))}
-      </List>
-      <Divider />
-      <Link href='/tools'>
-        <ListItem button component='a' href='/tools'>
-          <ListItemIcon>
-            <BuildIcon />
-          </ListItemIcon>
-          <ListItemText>Tools</ListItemText>
-        </ListItem>
-      </Link>
+      <NavPanel title='Token' links={tokenLinks} />
+      <NavPanel title='Exchange' links={exchangeLinks} />
+      <NavPanel title='Lending' links={lendingLinks} />
       <Divider />
       <ListItem
         button
         component='a'
-        href='https://github.com/pelith/defi-handbook'
+        className={classes.listItem}
+        href='https://github.com/hakka-finance/defi-handbook'
         target='_blank'
       >
         <ListItemIcon>
@@ -182,7 +189,7 @@ export default function NavContent() {
         </ListItemIcon>
         <ListItemText>GitHub</ListItemText>
       </ListItem>
-    </div>
+    </List>
   )
 }
 
