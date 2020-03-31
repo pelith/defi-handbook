@@ -28,6 +28,15 @@ function toFunctionName(src = '') {
     .slice(openParenthesesIndex + 1, closeParenthesesIndex)
     .split(',')
     .map(parameter => parameter.trim().split(' ')[0])
+    .map(type => {
+      if (type === 'uint') {
+        return 'uint256'
+      }
+      if (type === 'int') {
+        return 'int256'
+      }
+      return type
+    })
 
   if (!parameterTypes.every(type => solidityType.exec(type))) {
     throw Error('Invalid Solidity types')
