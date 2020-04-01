@@ -148,20 +148,9 @@ export default function NavContent() {
           classes={{ selected: classes.listItemSelected }}
           selected={router.asPath === '/tools'}
         >
-          <ListItemText style={{ textAlign: 'center' }}>
-            <span role='img' aria-label='fire'>
-              🔥
-            </span>{' '}
-            <Typography component='span' variant='h6'>
-              Tools
-            </Typography>{' '}
-            <span role='img' aria-label='fire'>
-              🔥
-            </span>
-          </ListItemText>
+          <ListItemText primary='Useful Dev Tools 🦒🦒' />
         </ListItem>
       </Link>
-      <Divider />
       <Link href='/'>
         <ListItem
           button
