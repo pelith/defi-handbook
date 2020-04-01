@@ -24,9 +24,9 @@ export default function MyApp({ Component, pageProps }) {
         />
         <meta property='og:url' content='https://defi-handbook.netlify.com' />
         <meta property='og:type' content='website' />
-        <meta property='og:image' content='/images/handbook-rollout.png' />
-        <meta property='og:image:width' content='289' />
-        <meta property='og:image:height' content='175' />
+        <meta property='og:image' content='/images/og-image.png' />
+        <meta property='og:image:width' content='600' />
+        <meta property='og:image:height' content='315' />
       </Head>
       <Web3Provider>
         <ThemeProvider>
