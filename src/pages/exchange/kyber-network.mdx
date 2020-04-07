@@ -1,14 +1,168 @@
+import KyberRegistry from '../../components/tools/KyberRegistry'
+
 # Kyber Network
 
 ## Interface
 
-```javascript
+```solidity
+contract KyberNetworkProxy {
+    function swapEtherToToken(address token, uint256 minConversionRate) public payable returns(uint256);
+    function swapTokenToEther(address token, uint256 srcAmount, uint256 minConversionRate) public returns(uint256);
+    function swapTokenToToken(address src, uint256 srcAmount, address dest, uint256 minConversionRate) public returns(uint256)
+    function trade(address src, uint256 srcAmount, address dest, address destAddress, uint256 maxDestAmount, uint256 minConversionRate, address walletId) public payable returns(uint256);
+    function tradeWithHint(address src, uint256 srcAmount, address dest, address destAddress, uint256 maxDestAmount, uint256 minConversionRate, address walletId, bytes hint) public payable returns(uint256);
+    function maxGasPrice() public view returns(uint256);
+    function getExpectedRate(address src, address dest, uint srcQty)public view returns(uint expectedRate, uint slippageRate)
+}
+
 ```
 
-prologue...
+```solidity
+//glossary
+bytes public constant PERM_HINT = "PERM";
+address ETH_TOKEN_ADDRESS = ERC20(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee);
+address registerReferral = 0xECa04bB23612857650D727B8ed008f80952654ee;
+
+contract registry{
+    function registerWallet(address wallet) external;
+}
+```
+
+KyberNetwork is an exchange aggregator provides nearly best rate from multiple onchain liquidity providers. You may do both ERC20 to Eth or ERC20 to ERC20 swap via KyberNetwork. KyberNetwork also relays swaps to permissionless exchanges like Uniswap and Oasis DEX, so exchange rate is always the same or better, but the drawback is its gas consuption is considerably higher. (50K -> 500K)
+
+<br />
+<br />
+
+## Registry
+
+KyberNetwork has a referral program. Anyone may register as a referrer and gain fee rebate from each trade that includes their address as a referral code.
+
+Referral would be calculated/sent in KNC, the native token of KyberNetwork.
+
+Registry address: `0xECa04bB23612857650D727B8ed008f80952654ee`
+
+> Use <a href = "https://etherscan.io/address/0xECa04bB23612857650D727B8ed008f80952654ee#writeContract">`registerWallet(address wallet)`</a> to register.
+>
+> You may register for other's address.
+
+<KyberRegistry />
+<br />
+<br />
+
+## Proxy
+
+KyberNetwork constantly upgrades its exchange contract implementation, to mitigate integration overhead, there's a proxy contract that delegates trade to an implementation. It's better for contracts to interact with Kyber Proxy insteand of the underlying contract, so it won't get affected when migration occurs.
+
+Kyber Proxy Contract Address : `0x818E6FECD516Ecc3849DAf6845e3EC868087B755`
+
+<br />
+<br />
+
+## Ether address used by Kyber Network
+
+Since the native asset, Eth, doesn't have an token address, Kyber uses `0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee` to represent Eth.
+
+When using Eth address as src, you MUST send Eth (`msg.value`) along with the function call.
+
+<br />
+<br />
+
+## Functions
+
+### trade
+
+Core function of KyberNetwork
+
+| Params            | Type    | Description                                                                   |
+| :---------------- | :------ | :---------------------------------------------------------------------------- |
+| src               | address | address of token to spend                                                     |
+| srcAmount         | uint256 | amount to spend                                                               |
+| dest              | address | address of token you want to buy                                              |
+| destAddress       | address | receiver address                                                              |
+| maxDestAmount     | uint256 | amount of `dest` bought must be lower than this                               |
+| minConversionRate | uint256 | conversion rate (`destAmount` / `srcAmount` \* 1e18) must be larger than this |
+| walletId          | address | address of your referrer                                                      |
+
+| Returns | Type    | Description                      |
+| :------ | :------ | :------------------------------- |
+|         | uint256 | the exact amount of token bought |
+
+<br />
+
+### tradeWithHint
+
+In KyberNetwork, there's two kind of reserve: permissioned and permissionless. Because anyone can initiate a permissionless reserve, searching best price in it may cost a lot of gas. If you only want to trade with permissioned liquidity provider, use tradeWithHint().
+
+> #### hint
+>
+> Input "PERM" into the `bytes hint` param to filter permissionless reservers.
+
+<br />
+
+### swapEtherToToken / swapTokenToEther / swapTokenToToken
+
+Wrapped function of `trade()`, fewer params, fewer gas consuption. Note that they do not filter permissionless liquidity providers.
+
+<br />
+
+### maxGasPrice
+
+To prevent severe front-running, KyberNetwork will block trades that have gas price exceed a certain amount. The max gas price is maintained by admin (or DAO). You may use `maxGasPrice` to check the current number.
+
+<br />
+
+### getExpectedRate
+
+Get current exchange rate of two tokens without executing any trade.
+
+| Params | Type    | Description                        |
+| :----- | :------ | :--------------------------------- |
+| src    | address | address of token you want to spend |
+| dest   | address | address of token you want to buy   |
+| srcQty | uint    | token amount to spend              |
+
+| Returns      | Type | Description                                                |
+| :----------- | :--- | :--------------------------------------------------------- |
+| expectedRate | uint | expected exchange rate (`destQty` / `srcQty` \* 1e18)      |
+| slippadeRate | uint | exchange rate in worst case (`destQty` / `srcQty` \* 1e18) |
+
+<br />
+<br />
 
 ## Use Cases
 
-Coming soon...
+### Buy Compound DAI with Eth in a single transaction
+
+```javascript
+contract BuycDAI {
+
+    Exchange Kyber = Exchange(0x818E6FECD516Ecc3849DAf6845e3EC868087B755);
+
+    Erc20 dai = Erc20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
+    CErc20 cDai = CErc20(0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643);
+
+    address etherAddr = 0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee;
+
+    address owner;
+
+    constructor() public {
+        owner = msg.sender; //must register to gain reward
+        dai.approve(address(cDai), uint256(-1));
+    }
+
+    function () public payable {
+        uint256 amount =
+        Kyber.trade.value(msg.value)(etherAddr, msg.value, address(dai), address(this), 10**28, 1, owner);
+        cDai.mint(amount);
+        amount = cDai.balanceOf(address(this));
+        cDai.transfer(msg.sender, amount);
+    }
+
+}
+```
+
+<br />
 
 ## Related Tools
+
+<KyberRegistry />

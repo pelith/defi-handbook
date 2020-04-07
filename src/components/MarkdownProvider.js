@@ -1,5 +1,6 @@
 import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
+import { styled } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -10,6 +11,18 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import CodeBlock from '../components/CodeBlock'
+
+const Anchor = props => (
+  <Box
+    borderBottom={1}
+    borderColor='#C97F4E'
+    display='inline-block'
+    style={{ textDecoration: 'none' }}
+    component='a'
+    target='_blank'
+    {...props}
+  />
+)
 
 const inlineCode = props => (
   <Box
@@ -23,8 +36,15 @@ const inlineCode = props => (
   />
 )
 
+const StyledBlock = styled(Box)({
+  '& > *:last-child': {
+    marginBottom: 0,
+    paddingBottom: 0,
+  },
+})
+
 const blockquote = props => (
-  <Box
+  <StyledBlock
     mx={5}
     my={2}
     p={2}
@@ -38,28 +58,40 @@ const blockquote = props => (
 
 const components = {
   h1: props => (
-    <Typography variant='h3' component='h1' gutterBottom {...props} />
+    <Box pt={1} pb={2}>
+      <Typography variant='h3' component='h1' {...props} />
+    </Box>
   ),
   h2: props => (
-    <Typography variant='h4' component='h2' gutterBottom {...props} />
+    <Box pt={1} pb={2}>
+      <Typography variant='h4' component='h2' {...props} />
+    </Box>
   ),
   h3: props => (
-    <Typography variant='h5' component='h3' gutterBottom {...props} />
+    <Box pt={1} pb={2}>
+      <Typography variant='h5' component='h3' {...props} />
+    </Box>
   ),
-  h4: props => (
-    <Typography variant='h6' component='h4' gutterBottom {...props} />
+  h4: props => <Typography variant='h6' component='h4' {...props} />,
+  h5: props => <Typography variant='subtitle1' component='h5' {...props} />,
+  h6: props => <Typography variant='body1' component='h6' {...props} />,
+  p: props => (
+    <Box pb={2}>
+      <Typography
+        variant='body2'
+        component='p'
+        style={{ lineHeight: 1.6 }}
+        {...props}
+      />
+    </Box>
   ),
-  h5: props => (
-    <Typography variant='subtitle1' component='h5' gutterBottom {...props} />
-  ),
-  h6: props => (
-    <Typography variant='body1' component='h6' gutterBottom {...props} />
-  ),
-  p: props => <Typography variant='body2' component='p' {...props} />,
+  a: Anchor,
   table: props => (
-    <TableContainer component={Paper}>
-      <Table {...props} />
-    </TableContainer>
+    <Box pt={1} pb={2}>
+      <TableContainer component={Paper}>
+        <Table {...props} />
+      </TableContainer>
+    </Box>
   ),
   thead: TableHead,
   tbody: TableBody,

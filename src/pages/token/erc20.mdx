@@ -24,7 +24,6 @@ interface IERC20 {
 ERC20 is a popular token standard on Etheruem. ERC20 is widely utilized in all kinds of DeFi protocols.
 
 <br />
-<br />
 
 ### totalSupply
 
@@ -41,9 +40,7 @@ Returns the amount of tokens owned by `account`.
 ### transfer
 
 Moves `amount` tokens from the caller's account to `recipient`.
-
 Returns a boolean value indicating whether the operation succeeded.
-
 Emits a `Transfer` event.
 
 <br />
@@ -51,9 +48,7 @@ Emits a `Transfer` event.
 ### allowance
 
 Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through transferFrom.
-
 This is zero by default.
-
 This value changes when `approve` or `transferFrom` are called.
 
 <br />
@@ -61,9 +56,7 @@ This value changes when `approve` or `transferFrom` are called.
 ### approve
 
 Sets `amount` as the allowance of `spender` over the caller's tokens.
-
 Returns a boolean value indicating whether the operation succeeded.
-
 Emits an `Approval` event.
 
 <br />
@@ -71,9 +64,7 @@ Emits an `Approval` event.
 ### transferFrom
 
 Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism. `amount` is then deducted from the caller's allowance.
-
 Returns a boolean value indicating whether the operation succeeded.
-
 Emits a `Transfer` event.
 
 <br />
