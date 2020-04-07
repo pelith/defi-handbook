@@ -5,6 +5,7 @@ import ContractAddressChecker from '../components/tools/ContractAddressChecker'
 import FuncSigGenerator from '../components/tools/FuncSigGenerator'
 import FuncSigSearch from '../components/tools/FuncSigSearch'
 import TokenToExchange from '../components/tools/TokenToExchange'
+import KyberRegistry from '../components/tools/KyberRegistry'
 
 export default function Tools() {
   return (
@@ -23,6 +24,9 @@ export default function Tools() {
       </Box>
       <Box my={3}>
         <TokenToExchange />
+      </Box>
+      <Box my={3}>
+        <KyberRegistry />
       </Box>
     </>
   )
