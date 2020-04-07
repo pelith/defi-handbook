@@ -173,6 +173,15 @@ export default function NavContent() {
         </ListItemIcon>
         <ListItemText>GitHub</ListItemText>
       </ListItem>
+      <ListItem
+        button
+        component='a'
+        className={classes.listItem}
+        href='https://hakka.finance'
+        target='_blank'
+      >
+        <ListItemText>Hakka Finance</ListItemText>
+      </ListItem>
     </List>
   )
 }
