@@ -11,7 +11,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import { makeStyles } from '@material-ui/styles'
-import { Typography } from '@material-ui/core'
 
 const tokenLinks = [
   {
@@ -21,10 +20,6 @@ const tokenLinks = [
   {
     text: 'Non-standard ERC20',
     href: '/token/non-standard-erc20',
-  },
-  {
-    text: 'Safe ERC20 Library',
-    href: '/token/safe-erc20-library',
   },
   {
     text: 'Permit / Max unit allowance',
